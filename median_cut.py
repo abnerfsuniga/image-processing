@@ -26,24 +26,21 @@ def cut_cube(cube, n_cut, iteration):
         half = len(color_aux_list) // 2
         new_cube1 = RGB_Cube(color_aux_list[:half], cube.g_list, cube.r_list)
         new_cube2 = RGB_Cube(color_aux_list[half:], cube.g_list, cube.r_list)
-        median_cut(new_cube1, n_cut, iteration)
-        median_cut(new_cube2, n_cut, iteration)
 
     elif cube._gsize == max(cube._bsize, cube._gsize, cube._rsize):
         color_aux_list = cube.g_list
         half = len(color_aux_list) // 2
         new_cube1 = RGB_Cube(cube.b_list, color_aux_list[:half], cube.r_list)
         new_cube2 = RGB_Cube(cube.b_list, color_aux_list[half:], cube.r_list)
-        median_cut(new_cube1, n_cut, iteration)
-        median_cut(new_cube2, n_cut, iteration)
 
     else:
         color_aux_list = np.sort(cube.r_list)
         half = len(color_aux_list) // 2
         new_cube1 = RGB_Cube(cube.b_list, cube.g_list, color_aux_list[:half])
         new_cube2 = RGB_Cube(cube.b_list, cube.g_list, color_aux_list[half:])
-        median_cut(new_cube1, n_cut, iteration)
-        median_cut(new_cube2, n_cut, iteration)
+
+    median_cut(new_cube1, n_cut, iteration)
+    median_cut(new_cube2, n_cut, iteration)
 
 def nearst_color(pixel, cube_list):
     distance = euclidian_distance(pixel, cube_list[0].rep_color, 3)
@@ -68,7 +65,7 @@ def convert(img, cube_list):
 def main(): 
     img = cv2.imread('dog.jpg')
     cube = RGB_Cube(img[:, :, 0], img[:, :, 1], img[:, :, 2])
-    exp, is_power_2 = is_power_two(16)
+    exp, is_power_2 = is_power_two(64)
     global iteration
     global cube_list
 

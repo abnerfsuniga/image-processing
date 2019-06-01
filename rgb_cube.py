@@ -3,9 +3,9 @@ import numpy as np
 class RGB_Cube(object):
 
     def __init__(self, b_list, g_list, r_list):
-        self.b_list = b_list
-        self.g_list = g_list
-        self.r_list = r_list
+        self.b_list = np.unique(b_list)
+        self.g_list = np.unique(g_list)
+        self.r_list = np.unique(r_list)
         self._bmin = b_list.min()
         self._bmax = b_list.max()
         self._gmin = g_list.min()
