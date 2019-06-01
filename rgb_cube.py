@@ -1,3 +1,5 @@
+import numpy as np
+
 class RGB_Cube(object):
 
     def __init__(self, b_list, g_list, r_list):
@@ -17,6 +19,9 @@ class RGB_Cube(object):
         self._gsize = abs(self._gmax - self._gmin)
         self._rsize = abs(self._rmax - self._rmin)
 
+    def select_representative(self):
+        self.rep_color = [np.average(self.b_list), np.average(self.g_list), np.average(self.r_list)]
+
     # Test method
     def print(self):
         print(self._bmin)
@@ -25,8 +30,6 @@ class RGB_Cube(object):
         print(self._gmax)
         print(self._rmin)
         print(self._rmax)
-        print(self._bsize)
-        print(self._gsize)
-        print(self._rsize)
+        print(self.rep_color)
 
     
