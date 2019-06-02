@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 import matplotlib
@@ -21,20 +20,20 @@ def cut_cube(cube, n_cut, iteration):
     half = 0
 
     iteration += 1
-    if cube._bsize == max(cube._bsize, cube._gsize, cube._rsize):
+    if cube.bsize == cube.largest_side:
         color_aux_list = cube.b_list
         half = len(color_aux_list) // 2
         new_cube1 = RGB_Cube(color_aux_list[:half], cube.g_list, cube.r_list)
         new_cube2 = RGB_Cube(color_aux_list[half:], cube.g_list, cube.r_list)
 
-    elif cube._gsize == max(cube._bsize, cube._gsize, cube._rsize):
+    elif cube.gsize == cube.largest_side:
         color_aux_list = cube.g_list
         half = len(color_aux_list) // 2
         new_cube1 = RGB_Cube(cube.b_list, color_aux_list[:half], cube.r_list)
         new_cube2 = RGB_Cube(cube.b_list, color_aux_list[half:], cube.r_list)
 
-    else:
-        color_aux_list = np.sort(cube.r_list)
+    elif cube.rsize == cube.largest_side:
+        color_aux_list = cube.r_list
         half = len(color_aux_list) // 2
         new_cube1 = RGB_Cube(cube.b_list, cube.g_list, color_aux_list[:half])
         new_cube2 = RGB_Cube(cube.b_list, cube.g_list, color_aux_list[half:])
@@ -43,11 +42,14 @@ def cut_cube(cube, n_cut, iteration):
     median_cut(new_cube2, n_cut, iteration)
 
 def nearst_color(pixel, cube_list):
-    distance = euclidian_distance(pixel, cube_list[0].rep_color, 3)
+    distance = 0
+    min_distance = euclidian_distance(pixel, cube_list[0].rep_color, 3)
     nearst_rgb_color = cube_list[0].rep_color
 
     for cube in cube_list:
-        if euclidian_distance(pixel, cube.rep_color, 3) < distance:
+        distance = euclidian_distance(pixel, cube.rep_color, 3) 
+        if distance < min_distance:
+            min_distance = distance
             nearst_rgb_color = cube.rep_color
 
     return nearst_rgb_color            
@@ -65,7 +67,7 @@ def convert(img, cube_list):
 def main(): 
     img = cv2.imread('dog.jpg')
     cube = RGB_Cube(img[:, :, 0], img[:, :, 1], img[:, :, 2])
-    exp, is_power_2 = is_power_two(64)
+    exp, is_power_2 = is_power_two(16)
     global iteration
     global cube_list
 
@@ -73,8 +75,15 @@ def main():
     iteration = 0
     if is_power_2:
         median_cut(cube, exp, iteration)
+    
+    for cube in cube_list:
+        print(cube.rep_color)
 
     new_image = convert(img, cube_list)
+    pixels = new_image.reshape((new_image.shape[0]*new_image.shape[1], 3))
+    cube = np.unique(pixels, axis=0)
+    print(len(cube))
+    
     cv2.imshow('image', img)
     cv2.imshow('new_image', new_image)
     cv2.waitKey(0)

@@ -6,30 +6,19 @@ class RGB_Cube(object):
         self.b_list = np.unique(b_list)
         self.g_list = np.unique(g_list)
         self.r_list = np.unique(r_list)
-        self._bmin = b_list.min()
-        self._bmax = b_list.max()
-        self._gmin = g_list.min()
-        self._gmax = g_list.max()
-        self._rmin = r_list.min()
-        self._rmax = r_list.max()
         self.find_size()
+        self.largest_side = max(self.bsize, self.gsize, self.rsize) 
 
     def find_size(self):
-        self._bsize = abs(self._bmax - self._bmin)
-        self._gsize = abs(self._gmax - self._gmin)
-        self._rsize = abs(self._rmax - self._rmin)
+        self.bsize = abs(max(self.b_list) - min(self.b_list))
+        self.gsize = abs(max(self.g_list) - min(self.g_list))
+        self.rsize = abs(max(self.r_list) - min(self.r_list))
 
     def select_representative(self):
-        self.rep_color = [np.average(self.b_list), np.average(self.g_list), np.average(self.r_list)]
+        self.rep_color = [int(np.mean(self.b_list)), int(np.mean(self.g_list)), int(np.mean(self.r_list))]
 
     # Test method
     def print(self):
-        print(self._bmin)
-        print(self._bmax)
-        print(self._gmin)
-        print(self._gmax)
-        print(self._rmin)
-        print(self._rmax)
         print(self.rep_color)
 
     
