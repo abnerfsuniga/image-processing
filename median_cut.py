@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import math
 import statistics
-import matplotlib.pyplot as plt
+import sys
 
 def find_diff_component(cube):
     b = abs(cube[:,0].max() - cube[:,0].min())
@@ -48,21 +48,26 @@ def quant_median_cut(image, LUT):
     return newimage
 
 def main():
-    img = cv2.imread('dog.jpg')
+
+    image_path = sys.argv[1]
+    n_colors = int(sys.argv[2])
+
+    img = cv2.imread(image_path)
 
     # Construindo o cubo RGB
     pixels = img.reshape((img.shape[0]*img.shape[1], 3))
     cube = np.unique(pixels, axis=0)
 
-    n = 16
-    log2n = math.log2(n)
+    log2n = math.log2(n_colors)
 
     # Verificando se é potência de 2
-    assert(int(log2n) - log2n == 0)
+    if not(int(log2n) - log2n == 0):
+        print("Número de cor passado como parâmetro não é potência de dois.\n")
+        exit(1)
 
     global cuts
     cuts = [] 
-    median_cut(cube, n)
+    median_cut(cube, n_colors)
 
     # Filtra cortes vazios (sem cores)
     cuts = list(filter(lambda cut: len(cut) > 0, cuts))

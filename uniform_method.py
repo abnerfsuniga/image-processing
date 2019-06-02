@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import math
+import sys
 
 def primes(n):
     primfac = []
@@ -41,9 +42,11 @@ def quant_uniforme(image, cartesian):
     return newimage
 
 def main():
-    n = 48
-    img = cv2.imread('dog.jpg')
-    primes_list = primes_reduction(primes(n), 3)
+    image_path = sys.argv[1]
+    n_colors = int(sys.argv[2])
+
+    img = cv2.imread(image_path)
+    primes_list = primes_reduction(primes(n_colors), 3)
     a = np.linspace(0, 255, primes_list[0], dtype=int)
     b = np.linspace(0, 255, primes_list[1], dtype=int)
     c = np.linspace(0, 255, primes_list[2], dtype=int)
