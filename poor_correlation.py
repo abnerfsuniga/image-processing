@@ -16,9 +16,9 @@ def correlation(img, mask):
     for i in range(0, new_y):
         for j in range(0, new_x):
             new_image[i][j] = calculate_pixel(img, mask, i, j)
-            
-    new_image /= 255
-    return new_image
+
+    new_image = (new_image / np.amax(new_image)) * 255
+    return new_image.astype(np.uint8)
 
 def calculate_pixel(img, mask, line, col):
     result = 0
@@ -37,16 +37,16 @@ def calculate_pixel(img, mask, line, col):
 def main():
     image_path = sys.argv[1]
     #Máscara para destacar bordas
-    mask = [[0, 1, 0],
-            [1, -4, 1],
-            [0, 1, 0]]
+    mask = [[1/9, 1/9, 1/9],
+            [1/9, 1/9, 1/9],
+            [1/9, 1/9, 1/9]]
 
     img = cv2.imread(image_path, 0)
     #Colocando borda de zeros
     img = np.pad(img, pad_width=1, mode='constant', constant_values=0)
     
     new_image = correlation(img, mask)
-
+    print(new_image)
     cv2.imshow('Image', img)
     cv2.imshow('New_Image', new_image)
     cv2.waitKey(0)
