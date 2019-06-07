@@ -1,11 +1,8 @@
 #Máscaras para teste
 #https://docs.gimp.org/2.8/pt_BR/plug-in-convmatrix.html
 
-
 import cv2
 import numpy as np
-import math
-import statistics
 import sys
 
 def correlation(img, mask):
@@ -36,10 +33,8 @@ def calculate_pixel(img, mask, line, col):
 
 def main():
     image_path = sys.argv[1]
-    #Máscara para destacar bordas
-    mask = [[1/9, 1/9, 1/9],
-            [1/9, 1/9, 1/9],
-            [1/9, 1/9, 1/9]]
+
+    mask = np.ones((3, 3))
 
     img = cv2.imread(image_path, 0)
     #Colocando borda de zeros
