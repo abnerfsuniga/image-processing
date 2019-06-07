@@ -1,6 +1,3 @@
-#Máscaras para teste
-#https://docs.gimp.org/2.8/pt_BR/plug-in-convimgrix.html
-
 import cv2
 import numpy as np
 import sys
@@ -8,7 +5,7 @@ import sys
 def correlation(img, mask):
     y, x = img.shape
     mask_y, mask_x = mask.shape
-    result = np.zeros((y-2, x-2), dtype='float')
+    result = np.zeros((y - 2, x - 2), dtype='float')
     for i in range(0, mask_y):
 	    aux_y = y + (i - 2)
 	    for j in range(0, mask_x):
@@ -20,8 +17,7 @@ def correlation(img, mask):
 
 def main():
     image_path = sys.argv[1]
-    mask = np.ones((3, 3))
-
+    mask = np.ones((3, 3)) * (1 / 9)
     img = cv2.imread(image_path, 0)
     #Colocando borda de zeros
     img = np.pad(img, pad_width=1, mode='constant', constant_values=0)
