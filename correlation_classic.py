@@ -27,6 +27,7 @@ def calculate_each_pixel(img, mask, line, col):
 def main():
     image_path = sys.argv[1]
     mask = np.ones((3, 3)) * (1 / 9)
+    #mask = np.array([[1, 2, 1], [2, 4, 1], [1, 2, 1]])
     img = cv2.imread(image_path, 0)
     #Colocando borda de zeros
     img = np.pad(img, pad_width=1, mode='constant', constant_values=0)
