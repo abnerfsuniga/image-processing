@@ -26,6 +26,7 @@ def calculate_each_pixel(img, mask, line, col):
 
 def main():
     image_path = sys.argv[1]
+    image_name = image_path.split('.')[0]
     mask = np.ones((3, 3)) * (1 / 9)
     #mask = np.array([[1, 2, 1], [2, 4, 1], [1, 2, 1]])
     img = cv2.imread(image_path, 0)
@@ -33,11 +34,11 @@ def main():
     img = np.pad(img, pad_width=1, mode='constant', constant_values=0)
     
     new_image = correlation(img, mask)
-    print(new_image)
-    cv2.imshow('Image', img)
-    cv2.imshow('New_Image', new_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.imwrite(image_name + '_m1.jpg', new_image)
+    # cv2.imshow('Image', img)
+    # cv2.imshow('New_Image', new_image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 if (__name__ == '__main__'):
     main()

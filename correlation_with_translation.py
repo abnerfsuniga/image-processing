@@ -17,17 +17,18 @@ def correlation(img, mask):
 
 def main():
     image_path = sys.argv[1]
+    image_name = image_path.split('.')[0]
     mask = np.ones((3, 3)) * (1 / 9)
     img = cv2.imread(image_path, 0)
     #Colocando borda de zeros
     img = np.pad(img, pad_width=1, mode='constant', constant_values=0)
     
     new_image = correlation(img, mask)
-    print(new_image)
-    cv2.imshow('Image', img)
-    cv2.imshow('New_Image', new_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.imwrite(image_name + '_m2.jpg', new_image)
+    # cv2.imshow('Image', img)
+    # cv2.imshow('New_Image', new_image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 if (__name__ == '__main__'):
     main()
