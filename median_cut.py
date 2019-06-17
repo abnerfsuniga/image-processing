@@ -3,6 +3,7 @@ import numpy as np
 import math
 import statistics
 import sys
+import os
 
 def find_diff_component(cube):
     b = abs(cube[:,0].max() - cube[:,0].min())
@@ -85,6 +86,7 @@ def main():
     cube = np.unique(pixels, axis=0)
     print(len(cube))
 
+    cv2.imwrite(f"{os.path.splitext(image_path)[0]}_mc_{n_colors}.jpg", img_median_cut)
     cv2.imshow('New Image', img_median_cut)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

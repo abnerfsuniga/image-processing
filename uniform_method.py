@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import math
 import sys
+import os
 
 def primes(n):
     primfac = []
@@ -58,6 +59,7 @@ def main():
     cube = np.unique(pixels, axis=0)
     print(len(cube))
     
+    cv2.imwrite(f"{os.path.splitext(image_path)[0]}_um_{n_colors}.jpg", img_uniforme)
     cv2.imshow('Uniform Method', img_uniforme)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
