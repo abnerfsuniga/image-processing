@@ -1,5 +1,4 @@
-# trab1-pdi
-
+# Image Processing
 
 ### Execução
 
